@@ -9,7 +9,7 @@ public struct FastBSONDecoder {
     }
 }
 
-struct _FastBSONDecoder<P: Primitive>: Decoder {
+internal struct _FastBSONDecoder<P: Primitive>: Decoder {
     let value: P
     var userInfo = [CodingUserInfoKey : Any]()
     var codingPath: [CodingKey] { [] }
