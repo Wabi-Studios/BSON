@@ -10,15 +10,15 @@ public struct FastBSONDecoder {
 }
 
 public struct _FastBSONDecoder<P: Primitive>: Decoder {
-    let value: P
-    var userInfo = [CodingUserInfoKey : Any]()
-    var codingPath: [CodingKey] { [] }
+    public let value: P
+    public var userInfo = [CodingUserInfoKey : Any]()
+    public var codingPath: [CodingKey] { [] }
     
-    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey, P == Document {
+    public func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey, P == Document {
         KeyedDecodingContainer(_FastKeyedContainer<Key>(document: value))
     }
     
-    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+    public func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
         guard let value = value as? Document else {
             throw BSONTypeConversionError(from: value, to: Document.self)
         }
@@ -26,11 +26,11 @@ public struct _FastBSONDecoder<P: Primitive>: Decoder {
         return KeyedDecodingContainer(_FastKeyedContainer<Key>(document: value))
     }
     
-    func singleValueContainer() throws -> SingleValueDecodingContainer {
+    public func singleValueContainer() throws -> SingleValueDecodingContainer {
         _FastSingleValueContainer(value: value)
     }
     
-    func unkeyedContainer() throws -> UnkeyedDecodingContainer {
+    public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         guard let value = value as? Document else {
             throw BSONTypeConversionError(from: value, to: Document.self)
         }
